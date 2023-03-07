@@ -4,6 +4,7 @@ import json
 import os
 import ssl
 import re
+import pickle
 
 def allowSelfSignedHttps(allowed):
     # bypass the server certificate verification on client side
@@ -74,3 +75,31 @@ with st.form('form'):
         
         except urllib.error.HTTPError as error:
             print("The request failed with status code: " + str(error.code))
+            
+model = pickle.load(open('/content/drive/MyDrive/Colab Notebooks/Recursos/AutoML4685bf37241/model.pkl', 'rb'))
+data = {
+  'age': 17,
+  'job': 'unemployed',
+  'marital': 'single',
+  'education': 'high school',
+  'default': '',
+  'housing': '',
+  'loan': '',
+  'contact': '',
+  'month': '',
+  'day_of_week': '',
+  'duration': 0,
+  'campaign': 0,
+  'pdays': 0,
+  'previous': 0,
+  'poutcome': '',
+  'emp.var.rate': 0.0,
+  'cons.price.idx': 0.0,
+  'cons.conf.idx': 0.0,
+  'euribor3m': 0.0,
+  'nr.employed': 0.0
+}
+import pandas as pd
+
+df = pd.json_normalize(data)
+st.write(model.predict(df))
